@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    <title>黎黎明的家谱</title>
+    <meta name="myBookKeywords" />
+    <meta name="description" content="黎黎明的家谱，记录家庭关系，生成家庭相册" />
+    <link rel="stylesheet" type="text/css" href="./css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="./css/compatibleCss.css">
+    <link rel="stylesheet" type="text/css" href="./css/DIYMODULES.css">
+    <link rel="stylesheet" type="text/css" href="./css/render.css">
+    <link rel="stylesheet" type="text/css" href="./js/pikaday.css">
+    <script src="./js/jquery-3.3.1-min.js"></script>
+    <script src="./js/jquery-qrcode-0.14.0.min.js"></script>
+    <script src="./js/underscore-min.js"></script>
+    <script src="./js/NavBar.js"></script>
+    <script type="text/javascript" src="./js/layer.js"></script>
+    <script src="./js/render.js" type="text/javascript"></script>
+    <script src="./js/jiapu.js" type="text/javascript"></script>
+    <!--calendar-->
+    <script src="./js/pikaday.min.js"></script>
+</head>
+
+<body id="pageBody" onload="main()" style="position: relative; padding-top:0px;">
+    <div id="common-nav-bar">
+        <div class="logo"><a href="http://zupu.jibai.com">
+                <!--<img src="/images/NavBar/logo.png" alt="logo"><img-->
+                <!--src="/images/NavBar/zupu.png" class="logos"  alt="zupu">-->
+                <img style="width: 178px;border: none;" src="/images/NavBar/pclogo.png" alt="">
+            </a></div>
+        <div class="search"><img src="/images/Home/home_searchIcon.png" alt=""><input placeholder="搜索您想要的内容" type="text"
+                id="_myBookKeyword"></div>
+        <div class="navBOX">
+
+            <div class="tab">
+                <ul>
+                    <li><a id="menu_index" href="/">首页</a></li>
+                    <li><a id="menu_familyTree" href="/jiapu/tree">家庭树</a></li>
+                    <li><a id="menu_genealogy" href="/zp/my">族谱</a></li>
+                    <li><a id="menu_news" href="/xinwen/index.htm">新闻</a></li>
+                    <li><a id="menu_record" href="/download">APP下载</a></li>
+                </ul>
+            </div>
+            <div class="login logins">
+                <div class="loginTop">
+                    <div class="userImg">
+                        <img class="user_img" src="https://imgs0.zupu.cn/default/avatars/male_0.png!square" alt="">
+                    </div>
+                    <span>黎黎明</span>
+                    <i class="sanJx"></i>
+                    <div class="show_box" style="display: none">
+                        <div class="normal"></div>
+                        <ul class="loginUl">
+
+                            <li onclick="_logOut()"><img src="/module/zhpk/images/tuichu.png" alt="">退出</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户未登录时显示登录和注册 -->
+
+
+        </div>
+
+    </div>
+    <div id="fullbg"></div>
+    <div id="familyTree">
+
+        <canvas id="canvas" width=1000 height=1000 tabindex="1" style="background: rgba(0, 0, 0, 0.2);">
+
+        </canvas>
+
+        <div id="widgets">
+            <div class="btn-class big-btn-class" id="myposition"></div>
+            <div class="btn-class big-btn-class" id="zoomin">+</div>
+            <div class="btn-class big-btn-class" id="zoomout">-</div>
+            <!--<div class="btn-class big-btn-class" id="reload" style="line-height: 20px; font-size: 20% !important;" onclick="reload();">重新加载</div>-->
+            <div id="message"></div>
+        </div>
+
+        <div id="loadingwindow" class="panel-class">
+            <div>加载中，请稍后...</div>
+        </div>
+
+        <div id="picviewer"></div>
+
+        <div id="boxDiv"
+            style="width: 0px; height: 0px; border: 3px solid #87A734; border-radius: 4px; position: absolute; z-index: 2;top:0px;left:0px;display: none;cursor:pointer;">
+            <div style="position: absolute; left: 100%; top: 0; display: none;">
+            </div>
+        </div>
+        <div id="defaultBoxDiv"
+            style="width: 0px; height: 0px;  border-radius: 4px; position: absolute; z-index: 2;top:0px;left:0px;display: none;cursor:pointer;">
+            <div style="position: absolute; left: 100%; top: 0; display: none;">
+            </div>
+        </div>
+        <div id="photos">
+        </div>
+        <div id="personal_option" style="display: none;">
+            <div class="gap">
+                <div class="arrow"></div>
+            </div>
+            <div class="btns">
+                <div class="icon" id="relButton">
+                    <div>关系</div>
+                </div>
+                <div class="icon" id="editButton">
+                    <div>编辑</div>
+                </div>
+                <div class="icon" id="addButton">
+                    <div>添加</div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="profie" id="profiesrlls" onmouseover="ab()"> -->
+        <div class="profie" id="profiesrlls" >
+            <div class="header">
+                <div class="info">
+                    <img id="profie_avatar" src="/images/takePictrue.png" class="left" />
+                    <div class="right">
+                        <h2 id="profie_name"></h2>
+                        <!-- <button onclick="_invite()">邀请加入</button> -->
+                    </div>
+                </div>
+                <div class="tabs">
+                    <span id="profie_addIndividual">添加亲人</span>
+                    <span id="profie_delIndividual">删除此人</span>
+                </div>
+            </div>
+            <div class="center">
+                <h4>个人资料<span id="profie_editIndividual">编辑</span></h4>
+                <div class="bornAt" style="margin-top: 14px">生日：<span id="profie_bornAt"></span></div>
+                <div class="bornArea">
+                    <div>地址：</div>
+                    <div id="profie_address"></div>
+                </div>
+                <div class="contect">联系方式：<span id="profie_mobile"></span></div>
+            </div>
+
+            <div class="bottom">
+                <h4>个人记录</h4>
+                <div class="right-content" id="user_statuses">
+                </div>
+            </div>
+            <img class="profie-hide" onclick="_hideProfile()" src="/images/slide_left_gray.png" />
+        </div>
+        <input type="hidden" id="rootIndividualId" value="3001571" />
+        <div id="addWindow" class="add-info">
+            <div class="popup">
+                <div class="title" id="popup_title">某人</div>
+                <div class="left">
+                    <img id="preview-0" src="/images/upload_img.png" />
+                    <div class="uploadImg-btn">上传头像<input type="file" id="uploadImg-0" /></div>
+                </div>
+                <form class="right_form" name="right_form">
+                    <input type="hidden" name="edit_id" id="edit_id" value="0" />
+                    <input type="hidden" name="node_id" id="node_id" value="0" />
+                    <input type="hidden" name="gender" id="gender" value="0" />
+                    <input type="hidden" name="type" id="type" value="0" />
+                    <input type="text" name="xing" id="familyName" placeholder="姓" />
+                    <input type="text" name="ming" id="lastName" placeholder="名" />
+                    <input type="text" name="mobile" id="mobile" placeholder="手机号" />
+                    <div class="birthday-select-btn" id="_containerBox"><input type="text" readonly="readonly"
+                            name="bornAt" id="bornAt" placeholder="他/她的生日" /></div>
+
+                    <label class="alive"><input type="checkbox" id="alive" checked="checked"
+                            name="alive" /><span>健在</span></label>
+                    <label class="option-tab" style="display:none" id="popup_alive">
+                        <input name="deadTime" class="deadTime" id="diedAt" placeholder="去世时间" readonly="readonly" />
+                        <input name="putArea" class="putArea" id="tombAddress" type="text" placeholder="安葬地" />
+                    </label>
+
+                    <input class="confirm" type="button" value="确定" id="popup_save" />
+                    <input class="cancel" type="button" value="取消" id="popup_cancel" />
+                </form>
+                <img id="popup_close" src="/images/close.png" class="close" />
+            </div>
+        </div>
+        <div id="dialog" style="display:none;">
+            <img class="close" onclick="closeBg()" src="/images/close.png" />
+            <svg class="reveal-modal" style="width:264px;height:264px;" viewBox="0 0 264 264">
+                <g transform="translate(-4,-4)">
+                    <g class="control-lines" transform="translate(29.000000, 29.000000)" stroke="#7A7774"
+                        stroke-linecap="square">
+                        <path d="M62.5,0.5 L151.5,213.5"></path>
+                        <path d="M62.5,0.5 L151.5,213.5"
+                            transform="translate(107.000000, 107.000000) scale(-1, 1) translate(-107.000000, -107.000000) ">
+                        </path>
+                        <path d="M62.5,0.5 L151.5,213.5"
+                            transform="translate(107.000000, 107.000000) rotate(90.000000) translate(-107.000000, -107.000000) ">
+                        </path>
+                        <path d="M62.5,0.5 L151.5,213.5"
+                            transform="translate(107.000000, 107.000000) scale(-1, 1) rotate(90.000000) translate(-107.000000, -107.000000) ">
+                        </path>
+                    </g>
+                    <g class="control-center" transform="translate(76.000000, 76.000000)">
+                        <g class="myself">
+                            <path
+                                d="M60.0000001,59.9836474 C60.0000001,59.9945491 60.0000001,60.0054509 60.0000001,60.0163526 C43.8943731,60.5438434 31,73.7661006 31,90 C31,106.233899 43.8943731,119.456157 59.9999947,119.983647 C60,119.989099 60,119.99455 60,120 C26.862915,120 -1.42108547e-14,93.137085 -1.42108547e-14,60 C-1.42108547e-14,26.862915 26.862915,1.27897692e-13 60,1.27897692e-13 C60,0.00545050643 60,0.0109013902 60,0.0163526511 C60.3319935,0.00547921413 60.6653569,1.27897692e-13 61,1.27897692e-13 C77.5685425,1.27897692e-13 91,13.4314575 91,30 C91,46.5685425 77.5685425,60 61,60 C60.6653569,60 60.3319936,59.9945208 59.9999948,59.9836472 Z"
+                                fill="#A7CBCB"></path>
+                            <text fill="#333333">
+                                <tspan id="tspan_this" x="38" y="34">我</tspan>
+                            </text>
+                        </g>
+                        <g id="g_spose" transform="translate(31.000000, 0.000000)" onclick="_add(9, this)"
+                            class="spouse">
+                            <path
+                                d="M28.9999999,59.9836473 C28.9999999,59.9945491 28.9999999,60.0054509 28.9999999,60.0163527 C12.894373,60.5438434 -2.84217094e-14,73.7661006 -2.84217094e-14,90 C-2.84217094e-14,106.233899 12.8943731,119.456157 28.9999947,119.983647 C29,119.989099 29,119.994549 29,120 C29.1954907,120 29.3907629,119.999065 29.5858127,119.997199 C29.7236634,119.999064 29.8617224,120 30,120 C30.8095088,120 31.611529,119.967937 32.40486,119.905013 C63.9578169,118.139864 89,91.9943894 89,60 C89,28.0056106 63.9578169,1.86013649 32.40486,0.0949869298 C47.8489531,1.3199617 60,14.2409663 60,30 C60,46.5685425 46.5685425,60 30,60 C29.6653569,60 29.3319935,59.9945208 28.9999947,59.9836472 Z M29,0.0163526512 C29,0.0109013951 29,0.0054505113 29,0 C29.1954907,0 29.3907629,0.000934924509 29.5858127,0.00280054621 C29.3900924,0.00544917012 29.1948086,0.00997228799 28.9999947,0.0163528235 Z"
+                                fill="#FFFFFF"></path>
+                            <text fill="#333333" id="text_spose">
+                                <tspan id="tspan_spose" x="28" y="94" onclick="_add(9, this)">配偶</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g class="control-btn">
+                        <g transform="translate(0.000000, 49.000000)" class="brother">
+                            <rect fill="#A7CBCB" onclick="_add(5, this)" id="rect_brother1"
+                                transform="translate(30.089410, 43.078116) rotate(112.500000) translate(-30.089410, -43.078116) "
+                                x="-9.91059019" y="27.0781162" width="80" height="32" rx="16"></rect>
+                            <text id="text_brother1"
+                                transform="translate(25.602756, 55.090290) rotate(-67.500000) translate(-30.602756, -45.090290)"
+                                fill="#333333">
+                                <tspan x="30.6027564" y="50.0902903" onclick="_add(5, this)">兄长</tspan>
+                            </text>
+                        </g>
+                        <g transform="translate(0.000000, 137.000000)" class="little-brother">
+                            <rect fill="#A7CBCB" onclick="_add(6, this)" id="rect_brother2"
+                                transform="translate(30.089410, 43.078116) rotate(67.500000) translate(-30.089410, -43.078116) "
+                                x="-9.91059019" y="27.0781162" width="80" height="32" rx="16"></rect>
+                            <text id="text_brother2"
+                                transform="translate(35.602756, 53.090290) rotate(-112.500000) translate(-29.602756, -43.090290)"
+                                fill="#333333">
+                                <tspan x="28.6027564" y="48.0902903" onclick="_add(6, this)">弟弟</tspan>
+                            </text>
+                        </g>
+                        <g class="son" transform="translate(49.000000, 212.000000)">
+                            <rect fill="#A7CBCB" id="rect_son" onclick="_add(1, this)"
+                                transform="translate(43.078116, 30.089410) rotate(22.500000) translate(-43.078116, -30.089410) "
+                                x="3.07811622" y="14.0894098" width="80" height="32" rx="16"></rect>
+                            <text
+                                transform="translate(30.986737, 26.559863) rotate(22.500000) translate(-42.986737, -30.559863)"
+                                fill="#333333">
+                                <tspan x="42.9867369" y="35.5598631" onclick="_add(1, this)">儿子</tspan>
+                            </text>
+                        </g>
+                        <g class="daughter" transform="translate(137.000000, 212.000000)">
+                            <rect fill="#E0BBB4" onclick="_add(2, this)"
+                                transform="translate(43.078116, 30.089410) scale(1, -1) rotate(22.500000) translate(-43.078116, -30.089410) "
+                                x="3.07811622" y="14.0894098" width="80" height="32" rx="16"></rect>
+                            <text
+                                transform="translate(32.986737, 35.559863) rotate(-22.500000) translate(-42.986737, -30.559863)"
+                                fill="#333333">
+                                <tspan x="42.9867369" y="35.5598631" onclick="_add(2, this)">女儿</tspan>
+                            </text>
+                        </g>
+                        <g class="little-sister" transform="translate(211.000000, 137.000000)">
+                            <rect fill="#E0BBB4" onclick="_add(8, this)" id="rect_sister1"
+                                transform="translate(30.854777, 43.712622) rotate(112.500000) translate(-30.854777, -43.712622) "
+                                x="-9.14522332" y="27.7126222" width="80" height="32" rx="16"></rect>
+                            <text id="text_sister1"
+                                transform="translate(33.602756, 37.090290) rotate(112.500000) translate(-30.602756, -44.090290)"
+                                fill="#333333">
+                                <tspan x="28.6027564" y="49.0902903" onclick="_add(8, this)">妹妹</tspan>
+                            </text>
+                        </g>
+                        <g class="sister" transform="translate(212.000000, 49.000000)">
+                            <rect fill="#E0BBB4" onclick="_add(7, this)" id="rect_sister2"
+                                transform="translate(30.089410, 43.078116) rotate(67.500000) translate(-30.089410, -43.078116) "
+                                x="-9.91059019" y="27.0781162" width="80" height="32" rx="16"></rect>
+                            <text id="text_sister2"
+                                transform="translate(29.602756, 35.090290) rotate(67.500000) translate(-35.602756, -40.090290)"
+                                fill="#333333">
+                                <tspan x="30.6027564" y="48.0902903" onclick="_add(7, this)">姐姐</tspan>
+                            </text>
+                        </g>
+                        <g class="mother disabled" transform="translate(137.000000, 0.000000)">
+                            <rect fill="#E0BBB4" id="rect_mother" onclick="_add(4, this)"
+                                transform="translate(43.078116, 30.089410) rotate(22.500000) translate(-43.078116, -30.089410) "
+                                x="3.07811622" y="14.0894098" width="80" height="32" rx="16"></rect>
+                            <text id="text_mother"
+                                transform="translate(29, 24) rotate(22.500000) translate(-43.107728, -29.739922)"
+                                fill="#333333">
+                                <tspan id="tspan_mother" x="44.107728" y="34.7399216" onclick="_add(4, this)">母亲</tspan>
+                            </text>
+                        </g>
+                        <g class="father disabled" transform="translate(49.000000, 0.000000)">
+                            <rect fill="#A7CBCB" id="rect_father" onclick="_add(3, this)"
+                                transform="translate(43.078116, 30.089410) scale(1, -1) rotate(22.500000) translate(-43.078116, -30.089410) "
+                                x="3.07811622" y="14.0894098" width="80" height="32" rx="16"></rect>
+                            <text id="text_father"
+                                transform="translate(31, 35) rotate(-22.500000) translate(-43.425867, -29.321028)"
+                                fill="#333333">
+                                <tspan id="tspan_father" x="42.4258672" y="34.3210276" onclick="_add(3, this)">父亲
+                                </tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <script>
+
+        var structure_raw_url = "/jiapu/getTreeData";
+        var initial_person = 3001571;
+        var generationLimit = 6;    //代数限制(优先网上2代)
+        function reload(rootIndividualId) {
+            structure_raw_url = "/jiapu/getTreeData";
+            initial_person = rootIndividualId;
+            reLoadData();
+        }
+        var picker = new Pikaday({
+            field: document.getElementById('bornAt'),
+            firstDay: 1,
+            // minDate: new Date('2010-01-01'),
+            maxDate: new Date(),
+            // yearRange: [2000,2020]
+            panelPosition: { left: 0, top: '0.4rem' },
+            containerBox: document.getElementById('_containerBox'),
+        });
+
+        $("#menu_familyTree").attr("class", "active");
+
+        var userAgent = navigator.userAgent;
+        // mobile
+        if (userAgent.match(/(iPhone|iPod|Android|webOS|ios|iPad|BlackBerry)/i)) {
+
+            $("#familyTree").css("backgroundPositionY", "0.6rem");
+
+            picker.setPanelPosition({ left: '0', top: '40px' });
+
+            // android mobile browser: UC、 QQ
+            if ((userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1 || userAgent.indexOf("Linux") > -1 || navigator.platform.indexOf("Linux") > -1)) {
+                // && (userAgent.indexOf('UCBrowser') > -1 || userAgent.indexOf('MQQBrowser') > -1)
+
+                // tab
+                var a = $("#common-nav-bar .tab ul li a");
+                for (var i = 0; i < a.length; i++) {
+                    var aDom = a[i],
+                        innerText = aDom.innerText;
+                    aDom.innerHTML = "<span>" + innerText + "</span>";
+                }
+
+                // login
+                var login = $("#common-nav-bar .login"),
+                    login_span = $(login).children("span"),
+                    login_html = "<div class='signIn'>";
+
+                login_html += "<span>" + login_span.get(0).innerText + "</span></div>";
+                login_html += "<div class='register' onclick='_logOut()'><span>" + login_span.get(1).innerText + "</span></div>";
+
+                $(login).html(login_html);
+
+                // collect
+                var collect = $("#common-nav-bar .collect"),
+                    collect_html = "<span>点击收藏</span>";
+
+                $(collect).html(collect_html);
+
+                $("#common-nav-bar").addClass("active");
+
+
+                // uploadImg-btn
+                $(".popup .left .uploadImg-btn").replaceWith("<div class='uploadImg-btn'><span>上传头像</span><input type='file' id='uploadImg-0' /></div>");
+
+                // add-info pop-up
+                $(".add-info .right_form .confirm").replaceWith("<div style='display: inline-block;' id='popup_save' class='confirm'><span>确定</span></div>");
+                $(".add-info .right_form .cancel").replaceWith("<div style='display: inline-block;' id='popup_cancel' class='cancel'><span>取消</span></div>");
+
+                // right_form input
+                var textInputs = $(".popup .right_form").children("input[type='text']");
+
+                $.each(textInputs, function (input, index) {
+                    var html = "<div class='input-scale-container'><span>";
+
+                    if ($(this).val()) {
+                        html += "" + $(this).val();
+                    } else {
+                        html += "" + $(this).attr("placeholder");
+                    }
+
+                    html += "</span><input type='text' name=" + $(this).attr("name") + " id=" + $(this).attr("id") + "/></div>";
+                    $(this).replaceWith(html);
+                });
+
+                $(".add-info").addClass("compatibleUCQQ");
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>
