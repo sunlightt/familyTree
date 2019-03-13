@@ -101,7 +101,197 @@ var loadData = function (callback) {
             var myii = i;
 
             // 本地数据
-            var res_data = [{"spouses":[],"alive":1,"children":[],"sex":"f","name":"cuson","id":"3004062","avatar":"/images/female.png","secondName":"","parents":["3004059","3004060"],"register":0},{"spouses":["3004060"],"alive":1,"children":["3004062","3001571"],"sex":"f","name":"monther","id":"3004059","avatar":"/images/female.png","secondName":"","parents":[],"register":0},{"spouses":["3004059"],"alive":1,"children":["3001571","3004062"],"sex":"m","name":"father","id":"3004060","avatar":"/images/male.png","secondName":"","parents":[],"register":0},{"spouses":[],"alive":1,"children":[],"sex":"m","name":"黎黎明","mobile":"18811382869","id":"3001571","avatar":"/images/male.png","secondName":"黎明","parents":["3004060","3004059"],"register":1}];
+            // var res_data = [{"spouses":[],"alive":1,"children":[],"sex":"f","name":"cuson","id":"3004062","avatar":"/images/female.png","secondName":"","parents":["3004059","3004060"],"register":0},{"spouses":["3004060"],"alive":1,"children":["3004062","3001571"],"sex":"f","name":"monther","id":"3004059","avatar":"/images/female.png","secondName":"","parents":[],"register":0},{"spouses":["3004059"],"alive":1,"children":["3001571","3004062"],"sex":"m","name":"father","id":"3004060","avatar":"/images/male.png","secondName":"","parents":[],"register":0},{"spouses":[],"alive":1,"children":[],"sex":"m","name":"黎黎明","mobile":"18811382869","id":"3001571","avatar":"/images/male.png","secondName":"黎明","parents":["3004060","3004059"],"register":1}];
+            
+            var  res_data = [
+            {  
+                    // 姐姐（大女儿、二女儿、三女儿）（妈妈爸爸的女儿）
+                    "spouses":["3004063"],
+                    "alive":1,
+                    "children":['3001565','3001566','3001567'],
+                    "sex":"f",
+                    "name":"姐姐",
+                    "id":"3004062",
+                    "avatar":"./images/female.png",
+                    "secondName":"邓喜梅",
+                    "parents":["3004059","3004060"],
+                    "register":0
+                },
+                {  
+                    // 姐夫
+                    "spouses":["3004062"],
+                    "alive":1,
+                    "children":['3001565','3001566','3001567'],
+                    "sex":"m",
+                    "name":"姐夫",
+                    "id":"3004063",
+                    "avatar":"./images/male.png",
+                    "secondName":"李沐",
+                    "parents":[],
+                    "register":0
+                }
+                ,
+                {  
+                    // 大女儿
+                    "spouses":[],
+                    "alive":1,
+                    "children":[],
+                    "sex":"f",
+                    "name":"大女儿",
+                    "id":"3001565",
+                    "avatar":"./images/female.png",
+                    "secondName":"邓喜一",
+                    "parents":["3004062","3004063"],
+                    "register":0
+                },
+                {  
+                    // 二女儿
+                    "spouses":[],
+                    "alive":1,
+                    "children":[],
+                    "sex":"f",
+                    "name":"二女儿",
+                    "id":"3001566",
+                    "avatar":"./images/female.png",
+                    "secondName":"邓喜二",
+                    "parents":["3004062","3004063"],
+                    "register":0
+                },
+                {
+                    // 三女儿
+                    "spouses":[],
+                    "alive":1,
+                    "children":[],
+                    "sex":"f",
+                    "name":"三女儿",
+                    "id":"3001567",
+                    "avatar":"./images/female.png",
+                    "secondName":"邓喜三",
+                    "parents":["3004062","3004063"],
+                    "register":0
+                },
+                {
+                    // 妈妈  （爸爸的妈妈）
+                    "spouses":["3004077"],
+                    "alive":1,
+                    "children":["3004059"],
+                    "sex":"m",
+                    "name":"奶奶",
+                    "id":"3004078",
+                    "avatar":"./images/female.png",
+                    "secondName":"奶奶",
+                    "parents":[],
+                    "register":0
+                },
+                {
+                    // 姥姥   （爷爷的爸爸）
+                    "spouses":[],
+                    "alive":0,
+                    "children":["3004077"],
+                    "sex":"m",
+                    "name":"姥姥",
+                    "id":"3004079",
+                    "avatar":"./images/male.png",
+                    "secondName":"黄一",
+                    "parents":[],
+                    "register":0
+                },
+                //  爷爷的father
+                {
+                    // 爷爷   （爸爸的爸爸）
+                    "spouses":[],
+                    "alive":1,
+                    "children":["3004077"],
+                    "sex":"m",
+                    "name":"太爷爷",
+                    "id":"3004090",
+                    "avatar":"./images/male.png",
+                    "secondName":"太爷爷",
+                    "parents":[],
+                    "register":0
+                },
+                {
+                    // 爷爷   （爸爸的爸爸）
+                    "spouses":["3004078"],
+                    "alive":1,
+                    "children":["3004059"],
+                    "sex":"m",
+                    "name":"爷爷",
+                    "id":"3004077",
+                    "avatar":"./images/male.png",
+                    "secondName":"爷爷",
+                    "parents":["3004090"],
+                    "register":0
+                },
+                {
+                    // 妈妈
+                    "spouses":["3004059"],
+                    "alive":1,
+                    "children":["3001571","3004062"],
+                    "sex":"f",
+                    "name":"妈妈",
+                    "id":"3004060",
+                    "avatar":"./images/female.png",
+                    "secondName":"黄素群",
+                    "parents":[],
+                    "register":0
+                },
+                {
+                    // 爸爸    
+                    "spouses":["3004060"],
+                    "alive":1,
+                    "children":["3004062","3001571"],
+                    "sex":"m",
+                    "name":"爸爸",
+                    "id":"3004059",
+                    "avatar":"./images/male.png",
+                    "secondName":"邓运粮",
+                    "parents":["3004077","3004078"],
+                    "register":0
+                },
+                {
+                    // 本人（妈妈爸爸的儿子）
+                    "spouses":[],
+                    "alive":1,
+                    "children":['3001563','3001564'],
+                    "sex":"m",
+                    "name":"本人",
+                    "mobile":"18811382869",
+                    "id":"3001571",
+                    "avatar":"./images/male.png",
+                    "secondName":"万江",
+                    "parents":["3004060","3004059"],
+                    "register":1
+                },
+                {
+                    // 大儿子（本人的大儿子）
+                    "spouses":[],
+                    "alive":1,
+                    "children":[],
+                    "sex":"m",
+                    "name":"大儿子",
+                    "mobile":"18811382869",
+                    "id":"3001563",
+                    "avatar":"./images/male.png",
+                    "secondName":"邓泊",
+                    "parents":["3001571"],
+                    "register":0
+                },
+                {
+                    // 二儿子（本人的二儿子）
+                    "spouses":[],
+                    "alive":1,
+                    "children":[],
+                    "sex":"m",
+                    "name":"二儿子",
+                    "mobile":"18811382869",
+                    "id":"3001564",
+                    "avatar":"./images/male.png",
+                    "secondName":"邓旭",
+                    "parents":["3001571"],
+                    "register":0
+                }
+            ] ;   
             answers--;
             if (res_data == null) {
                 errors++;
